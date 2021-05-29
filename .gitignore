@@ -15,5 +15,6 @@ Homestead.json
 /.vagrant
 .phpunit.result.cache
 /.idea
+.editorconfig
 public/css
 public/js
