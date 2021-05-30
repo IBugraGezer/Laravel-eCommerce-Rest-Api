@@ -21,7 +21,7 @@ class CreateOrderDetailsTable extends Migration
             $table->unsignedFloat('total_price', 6, 2);
             $table->timestamps();
 
-            $table->foreign('order')
+            $table->foreign('order_id')
                 ->references('id')
                 ->on('orders');
 
