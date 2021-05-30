@@ -16,11 +16,11 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('status');
-            $table->string('delivery_address_id',400);
-            $table->string('billing_address_id', 400);
+            $table->unsignedBigInteger('delivery_address_id');
+            $table->unsignedBigInteger('billing_address_id');
             $table->unsignedFloat('total_price', 7, 2);
             $table->string('ship_tracking_code', 100)->nullable();
-            $table->unsignedBigInteger('shipping_company_id')->nullable();
+            $table->unsignedBigInteger('shipping_company_id');
             $table->string('order_code', 100);
             $table->boolean('active')->default(1);
             $table->timestamps();
