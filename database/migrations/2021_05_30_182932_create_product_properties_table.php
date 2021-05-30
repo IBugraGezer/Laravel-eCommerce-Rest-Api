@@ -15,7 +15,18 @@ class CreateProductPropertiesTable extends Migration
     {
         Schema::create('product_properties', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('property_value_id');
             $table->timestamps();
+
+            $table->foreign('product_id')
+                ->references('id')
+                ->on('products')
+                ->onDelete('cascade');
+
+            $table->foreign('property_value_id')
+                ->references('id')
+                ->on('variant_property_values');
         });
     }
 
