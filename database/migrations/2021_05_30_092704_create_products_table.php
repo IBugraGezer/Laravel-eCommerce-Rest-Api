@@ -25,7 +25,6 @@ class CreateProductsTable extends Migration
             $table->unsignedInteger('stock')->default(0);
             $table->string('description', 1500)->nullable();
             $table->unsignedFloat('rating_average', 2,2);
-            $table->
             $table->boolean('active')->default(1);
             $table->timestamps();
 
