@@ -15,6 +15,7 @@ class CreateProductPropertyNamesTable extends Migration
     {
         Schema::create('product_property_names', function (Blueprint $table) {
             $table->id();
+            $table->string('name',60);
             $table->timestamps();
         });
     }
