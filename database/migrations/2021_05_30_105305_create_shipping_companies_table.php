@@ -17,7 +17,7 @@ class CreateShippingCompaniesTable extends Migration
             $table->id();
             $table->string('company_name', 100);
             $table->string('tracking_link', 1000);
-            $table->boolean('active');
+            $table->boolean('active')->default(1);
             $table->timestamps();
         });
     }
