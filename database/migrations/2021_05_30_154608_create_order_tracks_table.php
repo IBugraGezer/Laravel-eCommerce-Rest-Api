@@ -15,7 +15,17 @@ class CreateOrderTracksTable extends Migration
     {
         Schema::create('order_tracks', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('order_id');
+            $table->unsignedBigInteger('order_status');
             $table->timestamps();
+
+            $table->foreign('order_id')
+                ->references('id')
+                ->on('orders');
+
+            $table->foreign('order_status')
+                ->references('id')
+                ->on('order_statuses');
         });
     }
 
