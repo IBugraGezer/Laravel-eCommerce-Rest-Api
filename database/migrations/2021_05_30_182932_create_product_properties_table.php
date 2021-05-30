@@ -26,7 +26,7 @@ class CreateProductPropertiesTable extends Migration
 
             $table->foreign('property_value_id')
                 ->references('id')
-                ->on('variant_property_values');
+                ->on('product_property_values');
         });
     }
 

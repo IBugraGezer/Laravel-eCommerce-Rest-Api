@@ -21,8 +21,7 @@ class CreateProductPropertyValuesTable extends Migration
 
             $table->foreign('property_name_id')
                 ->references('id')
-                ->on('variant_property_names')
-                ->onDelete('cascade');
+                ->on('product_property_names');
 
         });
     }

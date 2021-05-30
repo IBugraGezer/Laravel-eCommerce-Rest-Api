@@ -13,6 +13,16 @@ class CreateReviewsTable extends Migration
      */
     public function up()
     {
+
+        Schema::create('reviews', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('user_id');
+            $table->string('comment', 800);
+            $table->unsignedInteger('rating');
+            $table->timestamps();
+        });
+
         DB::unprepared('
         CREATE TRIGGER ratingAvg
         AFTER INSERT ON reviews
@@ -22,14 +32,6 @@ class CreateReviewsTable extends Migration
                            WHERE products.id = reviews.product_id)
             WHERE id = NEW.product_id;
         ');
-        Schema::create('reviews', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('product_id');
-            $table->unsignedBigInteger('user_id');
-            $table->string('comment', 800);
-            $table->unsignedInteger('rating');
-            $table->timestamps();
-        });
     }
 
     /**
