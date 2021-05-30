@@ -15,6 +15,10 @@ class CreateProductVariantsTable extends Migration
     {
         Schema::create('product_variants', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('property_value_id');
+            $table->unsignedFloat('price', 6, 2);
+            $table->unsignedInteger('stock')->default(0);
             $table->timestamps();
         });
     }
