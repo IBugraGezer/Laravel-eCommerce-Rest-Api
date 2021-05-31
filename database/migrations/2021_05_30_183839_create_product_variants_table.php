@@ -32,6 +32,37 @@ class CreateProductVariantsTable extends Migration
                 ->references('id')
                 ->on('product_property_values');
         });
+
+        DB::unprepared("
+        DROP PROCEDURE IF EXISTS updateStock;
+        DROP TRIGGER IF EXISTS stockTotalizerAfterInsert;
+        DROP TRIGGER IF EXISTS stockTotalizerAfterUpdate;
+        DROP TRIGGER IF EXISTS stockTotalizerAfterDelete;
+        
+        CREATE PROCEDURE updateStock(pid BIGINT(20))
+        BEGIN
+            UPDATE products 
+            SET stock = (SELECT SUM(stock) 
+                        FROM product_variants
+                        WHERE product_id = pid) 
+            WHERE id=pid;
+        END");
+        DB::unprepared("
+        CREATE TRIGGER stockTotalizerAfterInsert
+        AFTER INSERT ON product_variants
+        FOR EACH ROW
+            CALL updateStock(NEW.product_id);
+
+        CREATE TRIGGER stockTotalizerAfterUpdate
+        AFTER UPDATE ON product_variants
+        FOR EACH ROW
+            CALL updateStock(NEW.product_id);
+
+        CREATE TRIGGER stockTotalizerAfterDelete
+        AFTER DELETE ON product_variants
+        FOR EACH ROW
+            CALL updateStock(OLD.product_id);
+        ");
     }
 
     /**
