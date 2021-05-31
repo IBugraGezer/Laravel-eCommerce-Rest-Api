@@ -26,6 +26,8 @@ class CreateOrderTracksTable extends Migration
             $table->foreign('order_status')
                 ->references('id')
                 ->on('order_statuses');
+
+            $table->unique(['order_id', 'order_status']);
         });
     }
 
