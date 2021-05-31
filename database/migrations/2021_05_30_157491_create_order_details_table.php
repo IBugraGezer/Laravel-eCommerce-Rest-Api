@@ -28,6 +28,8 @@ class CreateOrderDetailsTable extends Migration
             $table->foreign('product_id')
                 ->references('id')
                 ->on('products');
+
+            $table->unique(['order_id', 'product_id']);
         });
     }
 
