@@ -21,6 +21,8 @@ class CreateProductVariantsTable extends Migration
             $table->unsignedInteger('stock')->default(0);
             $table->timestamps();
 
+            $table->unique(['product_id', 'property_value_id']);
+
             $table->foreign('product_id')
                 ->references('id')
                 ->on('products')
