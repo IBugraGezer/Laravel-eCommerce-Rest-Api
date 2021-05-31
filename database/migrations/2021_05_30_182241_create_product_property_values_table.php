@@ -23,6 +23,7 @@ class CreateProductPropertyValuesTable extends Migration
                 ->references('id')
                 ->on('product_property_names');
 
+            $table->unique(['property_name_id', 'value']);
         });
     }
 
