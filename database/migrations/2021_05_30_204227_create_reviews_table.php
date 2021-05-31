@@ -31,6 +31,8 @@ class CreateReviewsTable extends Migration
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
+
+            $table->unique(['product_id', 'user_id']);
         });
 
         DB::unprepared("
