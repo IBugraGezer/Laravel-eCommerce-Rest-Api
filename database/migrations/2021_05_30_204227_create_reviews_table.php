@@ -33,15 +33,35 @@ class CreateReviewsTable extends Migration
                 ->onDelete('cascade');
         });
 
-        DB::unprepared('
-        CREATE TRIGGER ratingAvg
-        AFTER INSERT ON reviews
-        FOR EACH ROW
+        DB::unprepared("
+        DROP PROCEDURE IF EXISTS updateRating;
+        DROP TRIGGER IF EXISTS updateRatingAvgAfterInsert;
+        DROP TRIGGER IF EXISTS updateRatingAvgAfterUpdate;
+        DROP TRIGGER IF EXISTS updateRatingAvgAfterDelete;
+        
+        CREATE PROCEDURE updateRating(pid BIGINT(20))
+        BEGIN
             UPDATE products
             SET rating_average = (SELECT AVG(rating) FROM reviws
                            WHERE products.id = reviews.product_id)
-            WHERE id = NEW.product_id;
-        ');
+            WHERE id = pid;
+        END");
+        DB::unprepared("
+        CREATE TRIGGER ratingAvgAfterInsert
+        AFTER INSERT ON reviews
+        FOR EACH ROW
+            CALL updateRating(NEW.product_id);
+        
+        CREATE TRIGGER ratingAvgAfterUpdate
+        AFTER UPDATE ON reviews
+        FOR EACH ROW
+            CALL updateRating(NEW.product_id);
+            
+        CREATE TRIGGER ratingAvgAfterDelete
+        AFTER DELETE ON reviews
+        FOR EACH ROW
+            CALL updateRating(OLD.product_id);
+        ");
     }
 
     /**
