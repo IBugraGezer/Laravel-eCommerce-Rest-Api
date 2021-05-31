@@ -28,6 +28,8 @@ class CreateBasketItemsTable extends Migration
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users');
+
+            $table->unique(['product_id', 'user_id']);
         });
     }
 
