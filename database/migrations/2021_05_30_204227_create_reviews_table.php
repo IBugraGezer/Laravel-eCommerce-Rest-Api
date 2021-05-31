@@ -18,7 +18,7 @@ class CreateReviewsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('user_id');
-            $table->string('comment', 800);
+            $table->string('comment', 800)->nullable();
             $table->unsignedInteger('rating');
             $table->timestamps();
 
