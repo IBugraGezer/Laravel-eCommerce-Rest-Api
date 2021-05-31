@@ -15,7 +15,7 @@ class CreateShippingCompaniesTable extends Migration
     {
         Schema::create('shipping_companies', function (Blueprint $table) {
             $table->id();
-            $table->string('company_name', 100);
+            $table->string('company_name', 100)->unique();
             $table->string('tracking_link', 1000);
             $table->boolean('active')->default(1);
             $table->timestamps();
