@@ -42,8 +42,8 @@ class CreateReviewsTable extends Migration
         CREATE PROCEDURE updateRating(pid BIGINT(20))
         BEGIN
             UPDATE products
-            SET rating_average = (SELECT AVG(rating) FROM reviws
-                           WHERE products.id = reviews.product_id)
+            SET rating_average = (SELECT AVG(rating) FROM reviews
+                           WHERE product_id = pid)
             WHERE id = pid;
         END");
         DB::unprepared("
