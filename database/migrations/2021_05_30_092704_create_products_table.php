@@ -19,12 +19,12 @@ class CreateProductsTable extends Migration
             $table->unsignedBigInteger('brand_id');
             $table->string('name', 500);
             $table->string('cover_image', 1000)->nullable();
-            $table->unsignedFloat('price', 6, 2);
+            $table->unsignedDecimal('price', 9, 2);
             $table->string('slug', 500)->unique();
             $table->string('serial_number',20)->unique();
             $table->unsignedInteger('stock')->default(0);
             $table->string('description', 1500)->nullable();
-            $table->unsignedFloat('rating_average', 2,2)->nullable();
+            $table->unsignedDecimal('rating_average', 3,2)->nullable();
             $table->boolean('active')->default(1);
             $table->timestamps();
 

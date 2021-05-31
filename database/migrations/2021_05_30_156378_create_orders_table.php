@@ -18,7 +18,7 @@ class CreateOrdersTable extends Migration
             $table->unsignedBigInteger('status');
             $table->unsignedBigInteger('delivery_address_id');
             $table->unsignedBigInteger('billing_address_id');
-            $table->unsignedFloat('total_price', 7, 2);
+            $table->unsignedDecimal('total_price', 9, 2);
             $table->string('ship_tracking_code', 100)->nullable();
             $table->unsignedBigInteger('shipping_company_id');
             $table->string('order_code', 100)->unique();
