@@ -20,6 +20,15 @@ class CreateProductVariantsTable extends Migration
             $table->unsignedFloat('price', 6, 2);
             $table->unsignedInteger('stock')->default(0);
             $table->timestamps();
+
+            $table->foreign('product_id')
+                ->references('id')
+                ->on('products')
+                ->onDelete('cascade');
+
+            $table->foreign('property_value_id')
+                ->references('id')
+                ->on('product_property_values');
         });
     }
 
