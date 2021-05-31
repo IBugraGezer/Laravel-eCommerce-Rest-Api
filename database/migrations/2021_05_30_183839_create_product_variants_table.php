@@ -17,7 +17,7 @@ class CreateProductVariantsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('property_value_id');
-            $table->unsignedFloat('price', 6, 2);
+            $table->unsignedDecimal('price', 9, 2);
             $table->unsignedInteger('stock')->default(0);
             $table->timestamps();
 

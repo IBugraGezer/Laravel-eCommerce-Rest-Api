@@ -18,7 +18,7 @@ class CreateOrderDetailsTable extends Migration
             $table->unsignedBigInteger('order_id');
             $table->unsignedBigInteger('product_id');
             $table->integer('quantity');
-            $table->unsignedFloat('total_price', 6, 2);
+            $table->unsignedDecimal('total_price', 9, 2);
             $table->timestamps();
 
             $table->foreign('order_id')
