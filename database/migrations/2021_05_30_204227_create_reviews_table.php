@@ -21,6 +21,16 @@ class CreateReviewsTable extends Migration
             $table->string('comment', 800);
             $table->unsignedInteger('rating');
             $table->timestamps();
+
+            $table->foreign('product_id')
+                ->references('id')
+                ->on('products')
+                ->onDelete('cascade');
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
         });
 
         DB::unprepared('
