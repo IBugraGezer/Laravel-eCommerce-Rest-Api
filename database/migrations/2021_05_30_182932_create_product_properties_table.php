@@ -27,6 +27,8 @@ class CreateProductPropertiesTable extends Migration
             $table->foreign('property_value_id')
                 ->references('id')
                 ->on('product_property_values');
+
+            $table->unique(['product_id', 'property_value_id']);
         });
     }
 
