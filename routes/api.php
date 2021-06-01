@@ -19,7 +19,6 @@ Route::get('/categories', [CategoryController::class, 'index']);
 
 Route::post('/register', [AuthController::class, 'register']);
 
-Route::group(['middleware' => ['auth:sanctum']/*, 'prefix' => 'categories' */], function() {
-    Route::get('/categories', [CategoryController::class, 'store']);
-});
+Route::middleware('auth:sanctum')->get('/categories', [CategoryController::class, 'test']);
+
 
