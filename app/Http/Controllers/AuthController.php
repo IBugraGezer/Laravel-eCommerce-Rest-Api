@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\PersonalAccessToken;
-
+use Laravel\Sanctum\Sanctum;
 class AuthController extends Controller
 {
     public function register(Request $request) {

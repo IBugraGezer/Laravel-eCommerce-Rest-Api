@@ -81,4 +81,8 @@ class CategoryController extends Controller
     {
         return "destroy url";
     }
+
+    public function test() {
+        return "test url";
+    }
 }
