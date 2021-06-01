@@ -18,8 +18,8 @@ use App\Http\Controllers\AuthController;
 Route::get('/categories', [CategoryController::class, 'index']);
 
 Route::post('/register', [AuthController::class, 'register']);
-
+Route::post('/login', [AuthController::class, 'login']);
 Route::group(['middleware' => 'auth:sanctum'], function() {
-    Route::get('/test', [AuthController::class, 'test']);
+    Route::get('/test', [AuthController::class, 'test'])->name('test');
     Route::post('/logout', [AuthController::class, 'logout']);
 });

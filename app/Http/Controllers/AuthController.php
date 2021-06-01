@@ -7,9 +7,16 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\PersonalAccessToken;
 use Laravel\Sanctum\Sanctum;
+use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
     public function register(Request $req) {
+        if(Auth('sanctum')->check()) {
+            return response([
+                "message" => "you're already login"
+            ]);
+        }
+
         $fields = $req->validate([
             'name' => 'required|string',
             'email' => 'required|string|unique:users,email',
@@ -33,8 +40,13 @@ class AuthController extends Controller
     }
 
     public function login(Request $req) {
+        if(Auth('sanctum')->check()) {
+            return response([
+                "message" => "you're already login"
+            ]);
+        }
         $fields = $req->validate([
-            'mail' => 'required|string',
+            'email' => 'required|string',
             'password' => 'required|string'
         ]);
 
@@ -46,8 +58,7 @@ class AuthController extends Controller
             ], 401);
         }
 
-        $token = $user->createToken('app_token')->plainedTextToken;
-
+        $token = $user->createToken('app_token', ['user'])->plainTextToken;
         $response = [
           'user' => $user,
           'token' => $token
@@ -57,7 +68,11 @@ class AuthController extends Controller
     }
 
     public function test() {
-        return "you're logged in successfully";
+        if(auth('sanctum')->user()->tokenCan('admin')) {
+            return "you're an admin!";
+        } else {
+            return "you're an user";
+        }
     }
 
     public function logout() {
