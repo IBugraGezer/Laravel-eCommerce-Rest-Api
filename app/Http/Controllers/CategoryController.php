@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Category;
+
 class CategoryController extends Controller
 {
     /**
@@ -12,16 +12,6 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        return Category::all();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
     {
         //
     }
@@ -34,7 +24,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        return "post url";
+        //
     }
 
     /**
@@ -44,17 +34,6 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        return "show url";
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
     {
         //
     }
@@ -68,7 +47,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return "update url";
+        //
     }
 
     /**
@@ -79,6 +58,6 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        return "destroy url";
+        //
     }
 }
