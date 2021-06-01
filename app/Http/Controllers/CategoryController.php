@@ -24,7 +24,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return response(["message" => "CategoryController store method"]);
     }
 
     /**
