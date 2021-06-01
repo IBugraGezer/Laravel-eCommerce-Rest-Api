@@ -20,6 +20,6 @@ Route::get('/categories', [CategoryController::class, 'index']);
 Route::post('/register', [AuthController::class, 'register']);
 
 Route::group(['middleware' => ['auth:sanctum']/*, 'prefix' => 'categories' */], function() {
-    Route::post('/categories', [CategoryController::class, 'store']);
+    Route::get('/categories', [CategoryController::class, 'store']);
 });
 
