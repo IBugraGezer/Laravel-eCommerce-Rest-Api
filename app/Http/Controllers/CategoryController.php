@@ -23,7 +23,7 @@ class CategoryController extends Controller
         try {
             return response(Category::all(),200);
         } catch (\Exception $e) {
-            return response(["message" => "An error occured."],500);
+            return response(["message" => config('responses.error')],500);
         }
     }
 
@@ -43,7 +43,7 @@ class CategoryController extends Controller
             $category = Category::create($data);
             return response($category, 200);
         } catch (\Exception $e) {
-            return response(["message" => "An error occured.", 500]);
+            return response(["message" => config('responses.error'), 500]);
         }
     }
 
@@ -58,7 +58,7 @@ class CategoryController extends Controller
         try {
             return response(Category::findOrFail($id), 200);
         } catch (\Exception $e) {
-            return response(["message" => "An error occured"], 500);
+            return response(["message" => config('responses.error')], 500);
         }
 
     }
@@ -81,7 +81,7 @@ class CategoryController extends Controller
             $category->update($data);
             return response($category, 200);
         } catch (\Exception $e) {
-            return response(["message" => "An error occured"], 500);
+            return response(["message" => config('responses.error')], 500);
         }
     }
 
@@ -96,7 +96,7 @@ class CategoryController extends Controller
         try {
             return response(Category::destroy($id), 200);
         } catch (\Exception $e) {
-            return response(["message" => "An error occured"], 500);
+            return response(["message" => config('responses.error')], 500);
         }
     }
 }
