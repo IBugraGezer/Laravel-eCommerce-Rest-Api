@@ -15,17 +15,20 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-Route::get('/categories', [CategoryController::class, 'index']);
+//Route::get('/categories', [CategoryController::class, 'index']);
 
 Route::group(['prefix' => 'user'], function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
 });
 
+Route::apiResource('categories', CategoryController::class);
+
 Route::group(['middleware' => 'auth:sanctum'], function() {
 
     Route::group(['middleware' => 'admin_check'], function() {
-        Route::post('/categories', [CategoryController::class, 'store']);
+
+
     });
     Route::get('/test', [AuthController::class, 'test'])->name('test');
 
