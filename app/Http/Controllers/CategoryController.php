@@ -5,15 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
+use Illuminate\Support\Facades\Gate;
 
 class CategoryController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('admin_check', ['except' => ['index','show']]);
-        $this->middleware('auth:sanctum', ['except' => ['index','show']]);
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -36,6 +31,10 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        if(!auth('sanctum')->check()
+            || auth('sanctum')->user()->cannot('create', Category::class)) {
+            return response(["message" => config('responses.unauthorized')], 403);
+        }
         $data = $request->validate([
             'name' => 'required|string|min:2|max:40|unique:categories,name',
             'active' => 'numeric|min:0|max:1'
@@ -73,6 +72,10 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if(!auth('sanctum')->check()
+            || auth('sanctum')->user()->cannot('update', Category::class)) {
+            return response(["message" => config('responses.unauthorized')], 403);
+        }
         $data = $request->validate([
             'name' => 'string|min:2|max:40|unique:categories,name',
             'active' => 'numeric|min:0|max:1'
@@ -94,6 +97,13 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
+        if(!auth('sanctum')->check()
+            || auth('sanctum')->user()->cannot('delete', Category::class)) {
+            return response(["message" => config('responses.unauthorized')], 403);
+        }
+        if(!Gate::allows('destroy-category')) {
+            return response(["message" => config('responses.unauthorized')], 403);
+        }
         try {
             return response(Category::destroy($id), 200);
         } catch (\Exception $e) {

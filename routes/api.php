@@ -26,10 +26,6 @@ Route::apiResource('categories', CategoryController::class);
 
 Route::group(['middleware' => 'auth:sanctum'], function() {
 
-    Route::group(['middleware' => 'admin_check'], function() {
-
-
-    });
     Route::get('/test', [AuthController::class, 'test'])->name('test');
 
     Route::post('/user/logout', [AuthController::class, 'logout']);
