@@ -58,6 +58,11 @@ class AuthController extends Controller
             ], 401);
         }
 
+        $oldTokens = $user->tokens;
+        foreach($oldTokens as $oldToken) {
+            $oldToken->delete();
+        }
+
         $token = $user->createToken('app_token', [$user->email == "admin@admin.com" ? 'admin' : 'user'])->plainTextToken;
         $response = [
           'user' => $user,
