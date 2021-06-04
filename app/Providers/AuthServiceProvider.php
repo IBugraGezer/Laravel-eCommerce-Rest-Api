@@ -27,17 +27,5 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        Gate::define('store-category', function(User $user) {
-
-        });
-
-        Gate::define('update-category', function(User $user) {
-            return $user->tokenCan('admin') === true;
-        });
-
-        Gate::define('destroy-category', function(User $user) {
-            return $user->tokenCan('admin') === true;
-        });
     }
 }
