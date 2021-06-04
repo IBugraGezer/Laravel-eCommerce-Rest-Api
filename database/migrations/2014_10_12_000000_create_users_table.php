@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('last_ip',50)->nullable();
             $table->string('register_ip', 50)->nullable();
+            $table->integer('role_id')->default('1');
             $table->rememberToken();
             $table->timestamps();
         });
