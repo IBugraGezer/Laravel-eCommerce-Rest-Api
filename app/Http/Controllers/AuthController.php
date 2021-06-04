@@ -5,9 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Laravel\Sanctum\PersonalAccessToken;
-use Laravel\Sanctum\Sanctum;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\UserResource;
+
 class AuthController extends Controller
 {
     public function register(Request $req) {
@@ -32,7 +31,7 @@ class AuthController extends Controller
         $token = $user->createToken('app_token')->plainTextToken;
 
         $response = [
-            'user' => $user,
+            'user' => new UserResource($user),
             'token' => $token
         ];
 
@@ -65,7 +64,7 @@ class AuthController extends Controller
 
         $token = $user->createToken('app_token', [$user->email == "admin@admin.com" ? 'admin' : 'user'])->plainTextToken;
         $response = [
-          'user' => $user,
+          'user' => new UserResource($user),
           'token' => $token
         ];
 
