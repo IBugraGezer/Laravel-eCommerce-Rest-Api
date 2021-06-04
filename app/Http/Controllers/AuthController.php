@@ -62,7 +62,7 @@ class AuthController extends Controller
             $oldToken->delete();
         }
 
-        $token = $user->createToken('app_token', [$user->email == "admin@admin.com" ? 'admin' : 'user'])->plainTextToken;
+        $token = $user->createToken('app_token', [$user->isAdmin() ? 'admin' : 'user'])->plainTextToken;
         $response = [
           'user' => new UserResource($user),
           'token' => $token
