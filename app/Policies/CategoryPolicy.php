@@ -41,7 +41,7 @@ class CategoryPolicy
      */
     public function create(User $user)
     {
-        return $user->tokenCan('admin') === true;
+        return $user->isAdmin() === true;
     }
 
     /**
@@ -53,7 +53,7 @@ class CategoryPolicy
      */
     public function update(User $user, Category $category)
     {
-        return $user->tokenCan('admin') === true;
+        return $user->isAdmin() === true;
     }
 
     /**
@@ -65,6 +65,6 @@ class CategoryPolicy
      */
     public function delete(User $user, Category $category)
     {
-        return $user->tokenCan('admin') === true;
+        return $user->isAdmin() === true;
     }
 }
