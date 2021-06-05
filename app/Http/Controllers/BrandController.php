@@ -8,6 +8,11 @@ use App\Models\Brand;
 
 class BrandController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth_check')->except(['index', 'show']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -26,8 +31,7 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
-        if (!auth('sanctum')->check()
-            || auth('sanctum')->user()->cannot('create', Brand::class)) {
+        if (auth('sanctum')->user()->cannot('create', Brand::class)) {
             return response(["message" => config('responses.unauthorized')], 403);
         }
 
@@ -68,8 +72,7 @@ class BrandController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if(!auth('sanctum')->check()
-            || auth('sanctum')->user()->cannot('update', Brand::class)) {
+        if(auth('sanctum')->user()->cannot('update', Brand::class)) {
             return response(["message" => config('responses.unauthorized')], 403);
         }
 
@@ -99,8 +102,7 @@ class BrandController extends Controller
      */
     public function destroy($id)
     {
-        if (!auth('sanctum')->check()
-            || auth('sanctum')->user()->cannot('update', Brand::class)) {
+        if (auth('sanctum')->user()->cannot('update', Brand::class)) {
             return response(["message" => config('responses.unauthorized')], 403);
         }
 

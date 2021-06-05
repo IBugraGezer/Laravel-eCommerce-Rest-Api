@@ -4,8 +4,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-class CheckAdminUser
+
+class CheckAuth
 {
     /**
      * Handle an incoming request.
@@ -16,10 +16,9 @@ class CheckAdminUser
      */
     public function handle(Request $request, Closure $next)
     {
-        if(!Auth('sanctum')->user()->tokenCan('admin')) {
-            return response(["message" => config('responses.unauthorized')]);
-        } else {
-            return $next($request);
+        if(!auth('sanctum')->check()) {
+            return response(["message" => config("responses.unauthorized")], 403);
         }
+        return $next($request);
     }
 }
