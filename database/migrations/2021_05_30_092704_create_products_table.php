@@ -35,6 +35,10 @@ class CreateProductsTable extends Migration
             $table->foreign('brand_id')
                 ->references('id')
                 ->on('brands');
+
+            $table->foreign('cover_image', 1000)
+                ->references('id')
+                ->on('product_images');
         });
     }
 
