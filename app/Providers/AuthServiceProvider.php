@@ -7,7 +7,8 @@ use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use App\Policies\CategoryPolicy;
-
+use App\Models\Brand;
+use App\Policies\BrandPolicy;
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -17,6 +18,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Category::class => CategoryPolicy::class,
+        Brand::class => BrandPolicy::class
     ];
 
     /**
