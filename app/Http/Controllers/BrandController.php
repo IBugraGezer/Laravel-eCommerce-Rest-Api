@@ -20,7 +20,11 @@ class BrandController extends Controller
      */
     public function index()
     {
-        return response(BrandResource::collection(Brand::all()), 200);
+        try {
+            return response(BrandResource::collection(Brand::all()), 200);
+        } catch(\Exception $e) {
+            return response(["message" => config('responses.error')],500);
+        }
     }
 
     /**
@@ -41,7 +45,7 @@ class BrandController extends Controller
         ]);
         try {
             $brand = new BrandResource(Brand::create($data));
-            return response(new BrandResource($brand), 200);
+            return response($brand, 200);
         } catch (\Exception $e) {
             return response(["message" => config('responses.error')], 500);
         }

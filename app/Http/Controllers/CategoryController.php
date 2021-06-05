@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Gate;
 
 class CategoryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth_check')->except(['index', 'show']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +24,7 @@ class CategoryController extends Controller
         try {
             return response(CategoryResource::collection(Category::all()),200);
         } catch (\Exception $e) {
-            return response(["message" => $e->getMessage()],500);
+            return response(["message" => config('responses.error')],500);
         }
     }
 
@@ -31,8 +36,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        if(!auth('sanctum')->check()
-            || auth('sanctum')->user()->cannot('create', Category::class)) {
+        if(auth('sanctum')->user()->cannot('create', Category::class)) {
             return response(["message" => config('responses.unauthorized')], 403);
         }
         $data = $request->validate([
@@ -40,7 +44,7 @@ class CategoryController extends Controller
             'active' => 'numeric|min:0|max:1'
         ]);
         try {
-            $category =new CategoryResource(Category::create($data));
+            $category = new CategoryResource(Category::create($data));
             return response($category, 200);
         } catch (\Exception $e) {
             return response(["message" => config('responses.error'), 500]);
@@ -56,11 +60,11 @@ class CategoryController extends Controller
     public function show($id)
     {
         try {
-            return response(new CategoryResource(Category::findOrFail($id)), 200);
+            $category = Category::findOrFail($id);
         } catch (\Exception $e) {
             return response(["message" => config('responses.error')], 500);
         }
-
+        return response(new CategoryResource($category), 200);
     }
 
     /**
@@ -72,8 +76,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if(!auth('sanctum')->check()
-            || auth('sanctum')->user()->cannot('update', Category::class)) {
+        if(auth('sanctum')->user()->cannot('update', Category::class)) {
             return response(["message" => config('responses.unauthorized')], 403);
         }
         $data = $request->validate([
@@ -82,6 +85,10 @@ class CategoryController extends Controller
         ]);
         try {
             $category = Category::findOrFail($id);
+        } catch(Exception $e) {
+            return response(["message" => config('responses.not_found')], 404);
+        }
+        try {
             $category->update($data);
             return response(new CategoryResource($category), 200);
         } catch (\Exception $e) {
@@ -97,17 +104,18 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        if(!auth('sanctum')->check()
-            || auth('sanctum')->user()->cannot('delete', Category::class)) {
+        if(auth('sanctum')->user()->cannot('delete', Category::class)) {
             return response(["message" => config('responses.unauthorized')], 403);
         }
-        if(!Gate::allows('destroy-category')) {
-            return response(["message" => config('responses.unauthorized')], 403);
-        }
+
         try {
-            return response(Category::destroy($id), 200);
+            $category = Category::findOrFail($id);
         } catch (\Exception $e) {
-            return response(["message" => config('responses.error')], 500);
+            return response(["message" => config('responses.not_found')], 404);
         }
+
+        $deleteCount = Category::destroy($id);
+
+        return response(["deleted" => $deleteCount], 200);
     }
 }
