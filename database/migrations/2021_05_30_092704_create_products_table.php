@@ -18,7 +18,6 @@ class CreateProductsTable extends Migration
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('brand_id');
             $table->string('name', 500);
-            $table->string('cover_image', 1000)->nullable();
             $table->unsignedDecimal('price', 9, 2);
             $table->string('slug', 500)->unique();
             $table->string('serial_number',20)->unique();
@@ -35,10 +34,6 @@ class CreateProductsTable extends Migration
             $table->foreign('brand_id')
                 ->references('id')
                 ->on('brands');
-
-            $table->foreign('cover_image', 1000)
-                ->references('id')
-                ->on('product_images');
         });
     }
 
