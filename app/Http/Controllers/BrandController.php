@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreBrandRequest;
+use App\Http\Requests\UpdateBrandRequest;
 use Illuminate\Http\Request;
 use App\Http\Resources\BrandResource;
 use App\Models\Brand;
@@ -33,16 +35,14 @@ class BrandController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreBrandRequest $request)
     {
         if (auth('sanctum')->user()->cannot('create', Brand::class)) {
             return response(["message" => config('responses.unauthorized')], 403);
         }
 
-        $data = $request->validate([
-            'name' => 'required|string|min:2|max:50|unique:brands,name',
-            'active' => 'numeric|min:0|max:1'
-        ]);
+        $data = $request->validated();
+
         try {
             $brand = new BrandResource(Brand::create($data));
             return response($brand, 200);
@@ -74,16 +74,13 @@ class BrandController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateBrandRequest $request, $id)
     {
         if(auth('sanctum')->user()->cannot('update', Brand::class)) {
             return response(["message" => config('responses.unauthorized')], 403);
         }
 
-        $data = $request->validate([
-            'name' => 'required|string|min:2|max:50|unique:brands,name',
-            'active' => 'required|numeric|min:0|max:1'
-        ]);
+        $data = $request->validated();
 
         try {
             $brand = Brand::findOrFail($id);
