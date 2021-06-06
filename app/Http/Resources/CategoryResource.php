@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Models\User;
-
+use App\Helper\AuthHelper;
 class CategoryResource extends JsonResource
 {
     /**
@@ -16,9 +16,9 @@ class CategoryResource extends JsonResource
     public function toArray($request)
     {
         return [
-            "id" => $this->when(Auth('sanctum')->check() && Auth('sanctum')->user()->tokenCan('admin'), $this->id),
+            "id" => AuthHelper::checkAdmin() ? $this->id : null,
             "name" => $this->name,
-            "active" => $this->when(Auth('sanctum')->check() && Auth('sanctum')->user()->tokenCan('admin'), $this->active)
+            "active" => AuthHelper::checkAdmin() ? $this->active : null,
         ];
     }
 }
