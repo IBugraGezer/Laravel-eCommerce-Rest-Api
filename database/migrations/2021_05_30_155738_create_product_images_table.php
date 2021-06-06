@@ -18,6 +18,7 @@ class CreateProductImagesTable extends Migration
             $table->unsignedBigInteger('product_id');
             $table->string('image_path', 1000);
             $table->integer('place_number');
+            $table->boolean('is_cover')->nullable();
             $table->timestamps();
 
             $table->foreign('product_id')
