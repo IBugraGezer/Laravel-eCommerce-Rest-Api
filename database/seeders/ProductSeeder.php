@@ -18,7 +18,6 @@ class ProductSeeder extends Seeder
             'category_id' => 1,
             'brand_id' => 1,
             'name' => "test product",
-            'cover_image' => null,
             'price' => 1500,
             'slug' => "test slug",
             'serial_number' => 123456,
