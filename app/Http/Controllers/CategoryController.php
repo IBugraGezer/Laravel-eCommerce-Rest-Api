@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
 use Illuminate\Http\Request;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
@@ -34,15 +36,12 @@ class CategoryController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCategoryRequest $request)
     {
         if(auth('sanctum')->user()->cannot('create', Category::class)) {
             return response(["message" => config('responses.unauthorized')], 403);
         }
-        $data = $request->validate([
-            'name' => 'required|string|min:2|max:40|unique:categories,name',
-            'active' => 'numeric|min:0|max:1'
-        ]);
+        $data = $request->validated();
         try {
             $category = new CategoryResource(Category::create($data));
             return response($category, 200);
@@ -74,15 +73,12 @@ class CategoryController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateCategoryRequest $request, $id)
     {
         if(auth('sanctum')->user()->cannot('update', Category::class)) {
             return response(["message" => config('responses.unauthorized')], 403);
         }
-        $data = $request->validate([
-            'name' => 'string|min:2|max:40|unique:categories,name',
-            'active' => 'numeric|min:0|max:1'
-        ]);
+        $data = $request->validated();
         try {
             $category = Category::findOrFail($id);
         } catch(Exception $e) {
