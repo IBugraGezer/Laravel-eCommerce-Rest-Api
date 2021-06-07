@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Helper\AuthHelper;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProductResource extends JsonResource
@@ -14,6 +15,18 @@ class ProductResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => AuthHelper::checkAdmin() ? $this->id : null,
+            'category' => $this->category->name,
+            'brand' => $this->brand->name,
+            'name' => $this->name,
+            'price' => $this->price,
+            'slug' => $this->slug,
+            'serial_number' => $this->serial_number,
+            'stock' => $this->stock,
+            'description' => $this->description,
+            'rating_average' => $this->rating_average,
+            'active' => AuthHelper::checkAdmin() ? $this->active : null
+        ];
     }
 }
