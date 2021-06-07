@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BrandController;
@@ -24,6 +25,8 @@ Route::group(['prefix' => 'user'], function () {
 
 Route::apiResource('categories', CategoryController::class);
 Route::apiResource('brands', BrandController::class);
+Route::apiResource('products', ProductController::class);
+
 
 Route::group(['middleware' => 'auth:sanctum'], function() {
 
