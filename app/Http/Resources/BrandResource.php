@@ -15,10 +15,10 @@ class BrandResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+        return array_filter([
             'id' => AuthHelper::checkAdmin() ? $this->id : null,
             'name' => $this->name,
             'active' => AuthHelper::checkAdmin() ? $this->active : null,
-        ];
+        ]);
     }
 }

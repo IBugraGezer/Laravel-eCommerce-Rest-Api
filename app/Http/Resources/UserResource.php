@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Helper\AuthHelper;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource
@@ -14,12 +15,12 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            "id" => $this->when(Auth('sanctum')->check() && Auth('sanctum')->user()->tokenCan('admin'), $this->id),
+        return array_filter([
+            "id" => AuthHelper::checkAdmin() ? $this->id : null,
             "name" => $this->name,
             "email" => $this->email,
-            "last_ip" => $this->when(Auth('sanctum')->check() && Auth('sanctum')->user()->tokenCan('admin'), $this->last_ip),
-            "register_ip" => $this->when(Auth('sanctum')->check() && Auth('sanctum')->user()->tokenCan('admin'), $this->register_ip),
-        ];
+            "last_ip" => AuthHelper::checkAdmin() ? $this->last_ip : null,
+            "register_ip" => AuthHelper::checkAdmin() ? $this->register_ip : null,
+        ]);
     }
 }

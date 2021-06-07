@@ -15,7 +15,7 @@ class ProductResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+        return array_filter([
             'id' => AuthHelper::checkAdmin() ? $this->id : null,
             'category' => $this->category->name,
             'brand' => $this->brand->name,
@@ -27,6 +27,6 @@ class ProductResource extends JsonResource
             'description' => $this->description,
             'rating_average' => $this->rating_average,
             'active' => AuthHelper::checkAdmin() ? $this->active : null
-        ];
+        ]);
     }
 }
