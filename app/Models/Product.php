@@ -9,6 +9,8 @@ class Product extends Model
 {
     use HasFactory;
 
+    protected $guarded = ['serial_number', 'rating_average', 'id'];
+
     public function category() {
         return $this->belongsTo(Category::class);
     }
