@@ -11,9 +11,7 @@ class AuthController extends Controller
 {
     public function register(Request $req) {
         if(Auth('sanctum')->check()) {
-            return response([
-                "message" => "you're already login"
-            ]);
+            return response(config('responses.as_array.already_logged_in'),200);
         }
 
         $fields = $req->validate([
@@ -40,9 +38,7 @@ class AuthController extends Controller
 
     public function login(Request $req) {
         if(Auth('sanctum')->check()) {
-            return response([
-                "message" => "you're already login"
-            ]);
+            return response(config('responses.as_array.already_logged_in'),403);
         }
         $fields = $req->validate([
             'email' => 'required|string',
@@ -52,9 +48,7 @@ class AuthController extends Controller
         $user = User::where('email', $fields['email'])->first();
 
         if(!$user || !Hash::check($fields['password'], $user->password)) {
-            return response([
-               'message' => 'Bad creds'
-            ], 401);
+            return response(config('responses.as_array.bad_creds'), 401);
         }
 
         $oldTokens = $user->tokens;
@@ -82,7 +76,7 @@ class AuthController extends Controller
     public function logout() {
         auth()->user()->tokens()->delete();
 
-        return "you're logged out";
+        return response(config('responses.as_array.logged_out'));
     }
 
 }
