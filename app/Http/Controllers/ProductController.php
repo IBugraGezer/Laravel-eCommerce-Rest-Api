@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductStoreRequest;
+use App\Http\Requests\ProductUpdateRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -12,7 +13,7 @@ class ProductController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth_check')->except(['index']);
+        $this->middleware('auth_check')->except(['index', 'show']);
     }
 
     /**
@@ -77,9 +78,22 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProductUpdateRequest $request, $id)
     {
-        //
+        if(auth('sanctum')->user()->cannot('update', Product::class))
+            return response(config('responses.as_array.unauthorized'), 403);
+
+        try {
+            $product = Product::findOrFail($id);
+        } catch(\Exception $e) {
+            return response(config('responses.as_array.not_found', 404));
+        }
+        try {
+            $product->update($request);
+            return response(new ProductResource($product),200);
+        } catch(\Exception $e) {
+            return response(config('responses.as_array.error'), 500);
+        }
     }
 
     /**
