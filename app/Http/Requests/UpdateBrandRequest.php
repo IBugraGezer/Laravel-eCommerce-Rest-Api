@@ -25,7 +25,7 @@ class UpdateBrandRequest extends FormRequest
     {
         return [
             'name' => 'required|string|min:2|max:50|unique:brands,name',
-            'active' => 'required|numeric|min:0|max:1'
+            'active' => 'required|int|min:0|max:1'
         ];
     }
 }

@@ -25,7 +25,7 @@ class StoreBrandRequest extends FormRequest
     {
         return [
             'name' => 'required|string|min:2|max:50|unique:brands,name',
-            'active' => 'numeric|min:0|max:1'
+            'active' => 'int|min:0|max:1'
         ];
     }
 }
