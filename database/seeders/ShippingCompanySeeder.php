@@ -15,17 +15,17 @@ class ShippingCompanySeeder extends Seeder
     public function run()
     {
         ShippingCompany::create([
-            'name' => 'CompanyA',
+            'company_name' => 'CompanyA',
             'tracking_link' => '#'
         ]);
 
         ShippingCompany::create([
-            'name' => 'CompanyB',
+            'company_name' => 'CompanyB',
             'tracking_link' => '#'
         ]);
 
         ShippingCompany::create([
-            'name' => 'CompanyC',
+            'company_name' => 'CompanyC',
             'tracking_link' => '#'
         ]);
 
