@@ -21,7 +21,11 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return response(ProductResource::collection(Product::all()), 200);
+        try {
+            return response(ProductResource::collection(Product::all()), 200);
+        } catch(\Exception $e) {
+            return response(config('responses.as_array.error'),500);
+        }
     }
 
     /**
@@ -32,7 +36,20 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if(auth('sanctum')->user()->cannot('create', Product::class))
+            return response(config('responses.as_array.unauthorized'), 403);
+
+        $request->validated();
+
+        try {
+            $product = new Product;
+            $product->fill($request->all());
+            $product->serial_number = generateProductSerialNumber();
+            $product->save();
+            return response(new ProductResource($product), 200);
+        } catch(\Exception $e) {
+            return response(config('responses.as_array.error'), 500);
+        }
     }
 
     /**
@@ -43,7 +60,13 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+            $product = Product::findOrFail($id);
+        } catch(\Exception $e) {
+            return response(config('responses.as_array.not_found'), 404);
+        }
+
+        return response(new ProductResource($product), 200);
     }
 
     /**
@@ -66,6 +89,17 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if(auth('sanctum')->user()->cannot('delete', Product::class))
+            return response(config('responses.as_array.unauthorized'), 403);
+
+        try {
+            $product = Product::findOrFail($id);
+        } catch(\Exception $e) {
+            return response(config('responses.as_array.not_found'), 404);
+        }
+
+        $deleteCount = Product::destroy($id);
+
+        return response(["deleted" => $deleteCount], 200);
     }
 }
