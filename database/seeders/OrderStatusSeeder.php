@@ -19,11 +19,19 @@ class OrderStatusSeeder extends Seeder
         ]);
 
         OrderStatus::create([
-            'status' => 'packing'
+            'status' => 'incomplete'
         ]);
 
         OrderStatus::create([
-            'status' => 'shipping'
+            'status' => 'pending'
+        ]);
+
+        OrderStatus::create([
+            'status' => 'cancelled'
+        ]);
+
+        OrderStatus::create([
+            'status' => 'awaiting shipment'
         ]);
 
         OrderStatus::create([
@@ -31,11 +39,11 @@ class OrderStatusSeeder extends Seeder
         ]);
 
         OrderStatus::create([
-            'status' => 'delivered'
+            'status' => 'complete'
         ]);
 
         OrderStatus::create([
-            'status' => 'cancelled'
+            'status' => 'refunded'
         ]);
     }
 }
