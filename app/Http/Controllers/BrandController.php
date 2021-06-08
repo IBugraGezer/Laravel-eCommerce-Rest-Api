@@ -25,7 +25,7 @@ class BrandController extends Controller
         try {
             return response(BrandResource::collection(Brand::all()), 200);
         } catch(\Exception $e) {
-            return response(["message" => config('responses.error')],500);
+            return response(config('responses.as_array.error'),500);
         }
     }
 
@@ -38,7 +38,7 @@ class BrandController extends Controller
     public function store(StoreBrandRequest $request)
     {
         if (auth('sanctum')->user()->cannot('create', Brand::class)) {
-            return response(["message" => config('responses.unauthorized')], 403);
+            return response(config('responses.as_array.unauthorized'), 403);
         }
 
         $data = $request->validated();
@@ -47,7 +47,7 @@ class BrandController extends Controller
             $brand = new BrandResource(Brand::create($data));
             return response($brand, 200);
         } catch (\Exception $e) {
-            return response(["message" => config('responses.error')], 500);
+            return response(config('responses.as_array.error'), 500);
         }
     }
 
@@ -62,7 +62,7 @@ class BrandController extends Controller
         try {
             $brand = Brand::findOrFail($id);
         } catch (\Exception $e) {
-            return response(["message" => config('responses.not_found')], 404);
+            return response(config('responses.as_array.not_found'), 404);
         }
         return response(new BrandResource($brand), 200);
     }
@@ -77,7 +77,7 @@ class BrandController extends Controller
     public function update(UpdateBrandRequest $request, $id)
     {
         if(auth('sanctum')->user()->cannot('update', Brand::class)) {
-            return response(["message" => config('responses.unauthorized')], 403);
+            return response(config('responses.as_array.unauthorized'), 403);
         }
 
         $data = $request->validated();
@@ -85,13 +85,13 @@ class BrandController extends Controller
         try {
             $brand = Brand::findOrFail($id);
         } catch (\Exception $e) {
-            return response(["message" => config('responses.not_found')], 404);
+            return response(config('responses.as_array.not_found'), 404);
         }
         try {
             $brand->update($data);
             return response(new BrandResource($brand), 200);
         } catch (\Exception $e) {
-            return response(["message" => config('responses.error')], 500);
+            return response(config('responses.as_array.error'), 500);
         }
     }
 
@@ -104,13 +104,13 @@ class BrandController extends Controller
     public function destroy($id)
     {
         if (auth('sanctum')->user()->cannot('update', Brand::class)) {
-            return response(["message" => config('responses.unauthorized')], 403);
+            return response(config('responses.as_array.unauthorized'), 403);
         }
 
         try {
             $brand = Brand::findOrFail($id);
         } catch (\Exception $e) {
-            return response(["message" => config('responses.not_found')], 404);
+            return response(config('responses.as_array.snot_found'), 404);
         }
 
         $deleteCount = Brand::destroy($id);
