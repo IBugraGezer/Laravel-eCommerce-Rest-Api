@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Helper\AuthHelper;
 use App\Models\Address;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -18,7 +19,7 @@ class AddressPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return AuthHelper::checkAdmin();
     }
 
     /**
@@ -30,7 +31,7 @@ class AddressPolicy
      */
     public function view(User $user, Address $address)
     {
-        //
+        return $address->user_id == auth('sanctum')->user()->id;
     }
 
     /**
@@ -41,7 +42,7 @@ class AddressPolicy
      */
     public function create(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -53,7 +54,7 @@ class AddressPolicy
      */
     public function update(User $user, Address $address)
     {
-        //
+        return $address->user_id == auth('sanctum')->user()->id || AuthHelper::checkAdmin();
     }
 
     /**
@@ -65,30 +66,6 @@ class AddressPolicy
      */
     public function delete(User $user, Address $address)
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Address  $address
-     * @return mixed
-     */
-    public function restore(User $user, Address $address)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Address  $address
-     * @return mixed
-     */
-    public function forceDelete(User $user, Address $address)
-    {
-        //
+        return $address->user_id == auth('sanctum')->user()->id || AuthHelper::checkAdmin();
     }
 }
