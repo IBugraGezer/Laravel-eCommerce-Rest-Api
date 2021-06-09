@@ -10,12 +10,6 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware('auth_check')->except(['index', 'show']);
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -38,9 +32,6 @@ class ProductController extends Controller
      */
     public function store(ProductStoreRequest $request)
     {
-        if(auth('sanctum')->user()->cannot('create', Product::class))
-            return response(config('responses.as_array.unauthorized'), 403);
-
         $request->validated();
 
         try {
@@ -80,8 +71,7 @@ class ProductController extends Controller
      */
     public function update(ProductUpdateRequest $request, $id)
     {
-        if(auth('sanctum')->user()->cannot('update', Product::class))
-            return response(config('responses.as_array.unauthorized'), 403);
+        $request->validated();
 
         try {
             $product = Product::findOrFail($id);

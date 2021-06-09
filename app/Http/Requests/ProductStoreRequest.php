@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Helper\AuthHelper;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ProductStoreRequest extends FormRequest
 {
@@ -13,7 +15,7 @@ class ProductStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return AuthHelper::checkAdmin();
     }
 
     /**

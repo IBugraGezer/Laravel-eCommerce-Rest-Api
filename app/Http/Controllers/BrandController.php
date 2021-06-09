@@ -10,11 +10,6 @@ use App\Models\Brand;
 
 class BrandController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth_check')->except(['index']);
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -37,10 +32,6 @@ class BrandController extends Controller
      */
     public function store(StoreBrandRequest $request)
     {
-        if (auth('sanctum')->user()->cannot('create', Brand::class)) {
-            return response(config('responses.as_array.unauthorized'), 403);
-        }
-
         $data = $request->validated();
 
         try {
@@ -76,10 +67,6 @@ class BrandController extends Controller
      */
     public function update(UpdateBrandRequest $request, $id)
     {
-        if(auth('sanctum')->user()->cannot('update', Brand::class)) {
-            return response(config('responses.as_array.unauthorized'), 403);
-        }
-
         $data = $request->validated();
 
         try {

@@ -11,11 +11,6 @@ use Illuminate\Support\Facades\Gate;
 
 class CategoryController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth_check')->except(['index']);
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -38,10 +33,8 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        if(auth('sanctum')->user()->cannot('create', Category::class)) {
-            return response(config('responses.as_array.unauthorized'), 403);
-        }
         $data = $request->validated();
+
         try {
             $category = new CategoryResource(Category::create($data));
             return response($category, 200);
@@ -75,10 +68,8 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, $id)
     {
-        if(auth('sanctum')->user()->cannot('update', Category::class)) {
-            return response(config('responses.as_array.unauthorized'), 403);
-        }
         $data = $request->validated();
+
         try {
             $category = Category::findOrFail($id);
         } catch(Exception $e) {

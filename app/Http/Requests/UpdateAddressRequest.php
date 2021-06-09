@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Helper\AuthHelper;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateBrandRequest extends FormRequest
+class UpdateAddressRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +13,7 @@ class UpdateBrandRequest extends FormRequest
      */
     public function authorize()
     {
-        return AuthHelper::checkAdmin();
+        return false;
     }
 
     /**
@@ -25,8 +24,7 @@ class UpdateBrandRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|min:2|max:50|unique:brands,name',
-            'active' => 'required|int|min:0|max:1'
+            //
         ];
     }
 }

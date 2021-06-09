@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Helper\AuthHelper;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ProductUpdateRequest extends FormRequest
@@ -13,7 +14,7 @@ class ProductUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return AuthHelper::checkAdmin();
     }
 
     /**
