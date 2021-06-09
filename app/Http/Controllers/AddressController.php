@@ -38,11 +38,11 @@ class AddressController extends Controller
      */
     public function store(StoreAddressRequest $request)
     {
-        $request->validated();
+        $data = $request->validated();
 
         try {
             $address = new Address;
-            $address->fill($request->all());
+            $address->fill($data);
             $address->user_id = auth('sanctum')->user()->id;
             $address->save();
 
@@ -81,10 +81,10 @@ class AddressController extends Controller
         if(auth('sanctum')->user()->cannot('update', $address))
             return response(config('responses.as_array.unauthorized'), 403);
 
-        $request->validated();
+        $data = $request->validated();
 
         try {
-            $address->update($request);
+            $address->update($data);
             return response(new AddressResource($address), 200);
         } catch (\Exception $e) {
             return response(config('responses.as_array.error'), 500);
