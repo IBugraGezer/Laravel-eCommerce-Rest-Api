@@ -46,7 +46,7 @@ class ProductController extends Controller
         try {
             $product = new Product;
             $product->fill($request->all());
-            $product->serial_number = generateProductSerialNumber();
+            $product->generateProductSerialNumber();
             $product->save();
             return response(new ProductResource($product), 200);
         } catch(\Exception $e) {

@@ -18,4 +18,12 @@ class Product extends Model
     public function brand() {
         return $this->belongsTo(Brand::class);
     }
+
+    public function generateProductSerialNumber() {
+        $chars = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $serialNumber = substr(str_shuffle($chars), 0, 8);
+
+        $this->serial_number = $serialNumber;
+    }
+
 }
