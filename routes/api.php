@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
@@ -27,10 +28,9 @@ Route::apiResource('categories', CategoryController::class);
 Route::apiResource('brands', BrandController::class);
 Route::apiResource('products', ProductController::class);
 
-
 Route::group(['middleware' => 'auth:sanctum'], function() {
 
     Route::get('/test', [AuthController::class, 'test'])->name('test');
-
+    Route::apiResource('addresses', AddressController::class);
     Route::post('/user/logout', [AuthController::class, 'logout']);
 });
