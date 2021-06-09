@@ -48,7 +48,7 @@ class AddressController extends Controller
 
             return response(new AddressResource($address), 200);
         } catch(\Exception $e) {
-            return response(config('repsonses.as_array.error'));
+            return response(config('responses.as_array.error'));
         }
     }
 
@@ -60,7 +60,16 @@ class AddressController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+            $address = Address::findOrFail($id);
+        } catch (\Exception $e) {
+            return response(config('responses.as_array.not_found'), 404);
+        }
+
+        if(auth('sanctum')->user()->cannot('view', $address))
+            return response(config('responses.as_array.not_found'), 403);
+
+        return response(new AddressResource($address), 200);
     }
 
     /**
