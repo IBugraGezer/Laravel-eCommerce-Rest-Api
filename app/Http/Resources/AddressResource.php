@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Helper\AuthHelper;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class AddressResource extends JsonResource
@@ -14,6 +15,11 @@ class AddressResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return array_filter([
+            'id' => AuthHelper::checkAdmin() ? $this->id : null,
+            'user_id' => AuthHelper::checkAdmin() ? $this->user_id : null,
+            'address_name' => $this->address_name,
+            'address' => $this->address,
+        ]);
     }
 }
