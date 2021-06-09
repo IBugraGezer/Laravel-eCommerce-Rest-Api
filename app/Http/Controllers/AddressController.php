@@ -2,10 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Helper\AuthHelper;
+use App\Http\Requests\StoreAddressRequest;
+use App\Http\Requests\UpdateAddressRequest;
+use App\Http\Resources\AddressResource;
+use App\Models\Address;
 use Illuminate\Http\Request;
 
 class AddressController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('admin_check')->only('index');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +23,11 @@ class AddressController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            return response(AddressResource::collection(Address::all()), 200);
+        } catch (\Exception $e) {
+            return response(config('responses.as_array.error'), 500);
+        }
     }
 
     /**
@@ -22,9 +36,20 @@ class AddressController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreAddressRequest $request)
     {
-        //
+        $request->validated();
+
+        try {
+            $address = new Address;
+            $address->fill($request->all());
+            $address->user_id = auth('sanctum')->user()->id;
+            $address->save();
+
+            return response(new AddressResource($address), 200);
+        } catch(\Exception $e) {
+            return response(config('repsonses.as_array.error'));
+        }
     }
 
     /**
@@ -45,9 +70,25 @@ class AddressController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateAddressRequest $request, $id)
     {
-        //
+        try {
+            $address = Address::findOrFail($id);
+        } catch(\Exception $e) {
+            return response(config('responses.as_array.not_found'), 404);
+        }
+
+        if(auth('sanctum')->user()->cannot('update', $address))
+            return response(config('responses.as_array.unauthorized'), 403);
+
+        $request->validated();
+
+        try {
+            $address->update($request);
+            return response(new AddressResource($address), 200);
+        } catch (\Exception $e) {
+            return response(config('responses.as_array.error'), 500);
+        }
     }
 
     /**
@@ -58,6 +99,17 @@ class AddressController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $address = Address::findOrFail($id);
+        } catch (\Exception $e) {
+            return response(config('responses.as_array.not_found'), 404);
+        }
+
+        if(auth('sanctum')->user()->cannot('delete', $address))
+            return response(config('responses.as_array.unauthorized'), 403);
+
+        $deleteCount = Address::destroy($id);
+
+        return response(["deleted" => $deleteCount], 200);
     }
 }

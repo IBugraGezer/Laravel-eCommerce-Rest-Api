@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Helper\AuthHelper;
+use App\Models\Address;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateAddressRequest extends FormRequest
@@ -13,7 +15,7 @@ class UpdateAddressRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +26,9 @@ class UpdateAddressRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'address_name' => 'required|string|max:70',
+            'address' => 'required|string|min:10|max:450',
+            'active' => 'int|min:0|max:1'
         ];
     }
 }
