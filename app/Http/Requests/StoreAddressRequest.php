@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Helper\AuthHelper;
+use App\Helpers\AuthHelper;
 use App\Models\Address;
 use Illuminate\Foundation\Http\FormRequest;
 

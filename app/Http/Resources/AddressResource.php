@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\Helper\AuthHelper;
+use App\Helpers\AuthHelper;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class AddressResource extends JsonResource

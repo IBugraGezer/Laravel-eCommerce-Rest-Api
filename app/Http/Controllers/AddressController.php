@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Helper\AuthHelper;
+use App\Helpers\AuthHelper;
 use App\Http\Requests\StoreAddressRequest;
 use App\Http\Requests\UpdateAddressRequest;
 use App\Http\Resources\AddressResource;

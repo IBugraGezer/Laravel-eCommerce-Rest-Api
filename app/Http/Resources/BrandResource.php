@@ -3,7 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Helper\AuthHelper;
+use App\Helpers\AuthHelper;
 
 class BrandResource extends JsonResource
 {

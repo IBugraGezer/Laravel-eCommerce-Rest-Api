@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Models\User;
-use App\Helper\AuthHelper;
+use App\Helpers\AuthHelper;
 class CategoryResource extends JsonResource
 {
     /**

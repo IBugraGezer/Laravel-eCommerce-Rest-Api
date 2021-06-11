@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Helper\AuthHelper;
+use App\Helpers\AuthHelper;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateBrandRequest extends FormRequest
