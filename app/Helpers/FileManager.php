@@ -9,16 +9,20 @@ use Illuminate\Support\Facades\Storage;
 class FileManager
 {
     public static function getPublicDir() {
+        return FileManager::getAnyDir("public");
+    }
+
+    public static function getAnyDir($dir) {
         $items = [];
 
-        $directories = Storage::directories("public");
+        $directories = Storage::directories($dir);
         foreach ($directories as $directory) {
-            $items[$directory] = [];
+            $items[$directory] = "directory";
         }
 
-        $files = Storage::files("public");
+        $files = Storage::files($dir);
         foreach ($files as $file) {
-            $items[$file] = null;
+            $items[$file] = "file";
         }
 
         return $items;
