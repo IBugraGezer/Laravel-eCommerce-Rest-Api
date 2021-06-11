@@ -30,7 +30,8 @@ Route::apiResource('products', ProductController::class);
 
 Route::group(['middleware' => 'auth:sanctum'], function() {
 
-    Route::get('/test', [AuthController::class, 'test'])->name('test');
+
     Route::apiResource('addresses', AddressController::class);
     Route::post('/user/logout', [AuthController::class, 'logout']);
 });
+Route::any('/test', [\App\Http\Controllers\FileTestController::class, 'test'])->name('test');
