@@ -11,7 +11,7 @@ class FileController extends Controller
         return FileManager::getPublicDir();
     }
 
-    public function getAnyItem(GetAnyItemRequest $request) {
+    public function getDir(GetDirRequest $request) {
         $data = $request->validated();
 
         return response(FileManager::getAnyDir($data->path), 200);
