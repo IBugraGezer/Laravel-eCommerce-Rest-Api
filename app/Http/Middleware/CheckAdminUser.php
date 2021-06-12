@@ -16,7 +16,7 @@ class CheckAdminUser
      */
     public function handle(Request $request, Closure $next)
     {
-        if(!Auth('sanctum')->user()->tokenCan('admin')) {
+        if(!auth('sanctum')->check() || !auth('sanctum')->user()->tokenCan('admin')) {
             return response(["message" => config('responses.unauthorized')]);
         } else {
             return $next($request);
