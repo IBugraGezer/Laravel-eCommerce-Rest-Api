@@ -26,7 +26,7 @@ class IsDirExists implements Rule
      */
     public function passes($attribute, $value)
     {
-        return File::isDirectory($value);
+        return File::isDirectory($value) === true;
     }
 
     /**
