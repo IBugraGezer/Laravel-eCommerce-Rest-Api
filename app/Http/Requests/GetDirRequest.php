@@ -24,7 +24,7 @@ class GetDirRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|isDirExists'
+            'path' => 'required|isDirExists'
         ];
     }
 }
