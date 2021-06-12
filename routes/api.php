@@ -29,9 +29,9 @@ Route::apiResource('brands', BrandController::class);
 Route::apiResource('products', ProductController::class);
 
 Route::group(['middleware' => 'auth:sanctum'], function() {
-
-
     Route::apiResource('addresses', AddressController::class);
     Route::post('/user/logout', [AuthController::class, 'logout']);
 });
-Route::any('/test', [\App\Http\Controllers\FileTestController::class, 'test'])->name('test');
+Route::group(['middleware' => 'admin_check', 'prefix' => 'file-manager'], function() {
+    Route::get('/get-public-dir', [\App\Http\Controllers\FileController::class, 'getPublicDir'])->name('getPublicDir');
+});
