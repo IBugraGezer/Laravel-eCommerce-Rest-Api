@@ -20,7 +20,7 @@ class FileManager
             $items[$directory] = "directory";
         }
 
-        $files = Storage::files($dir);
+        $files = Storage::files("public" . DIRECTORY_SEPARATOR . $dir);
         foreach ($files as $file) {
             $items[$file] = "file";
         }
