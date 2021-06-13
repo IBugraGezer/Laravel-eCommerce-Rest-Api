@@ -8,14 +8,14 @@ use Illuminate\Support\Facades\Storage;
 
 class FileManager
 {
-    public static function getPublicDir() {
-        return FileManager::getAnyDir("public");
+    public static function getPublicStorageDir() {
+        return FileManager::getAnyDirUnderPublicStorage("public");
     }
 
-    public static function getAnyDir($dir) {
+    public static function getAnyDirUnderPublicStorage($dir) {
         $items = [];
 
-        $directories = Storage::directories($dir);
+        $directories = Storage::directories("public" . DIRECTORY_SEPARATOR . $dir);
         foreach ($directories as $directory) {
             $items[$directory] = "directory";
         }
