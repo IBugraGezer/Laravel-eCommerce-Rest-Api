@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\IsDirExistsUnderPublicStorage;
 use Illuminate\Foundation\Http\FormRequest;
 
-class GetDirRequest extends FormRequest
+class GetDirUnderPublicStorageRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +25,7 @@ class GetDirRequest extends FormRequest
     public function rules()
     {
         return [
-            'path' => 'required|isDirExists'
+            'path' => ['required', new IsDirExistsUnderPublicStorage()]
         ];
     }
 }
