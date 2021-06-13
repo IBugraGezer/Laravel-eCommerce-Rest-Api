@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 class FileManager
 {
     public static function getPublicStorageDir() {
-        return FileManager::getAnyDirUnderPublicStorage("public");
+        return FileManager::getAnyDirUnderPublicStorage("/");
     }
 
     public static function getAnyDirUnderPublicStorage($dir) {
@@ -17,12 +17,12 @@ class FileManager
 
         $directories = Storage::directories("public" . DIRECTORY_SEPARATOR . $dir);
         foreach ($directories as $directory) {
-            $items[$directory] = "directory";
+            $items[ltrim($directory, "public/")] = "directory";
         }
 
         $files = Storage::files("public" . DIRECTORY_SEPARATOR . $dir);
         foreach ($files as $file) {
-            $items[$file] = "file";
+            $items[ltrim($file, "public/")] = "file";
         }
 
         return $items;
