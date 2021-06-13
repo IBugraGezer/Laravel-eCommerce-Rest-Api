@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
@@ -33,5 +34,6 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::post('/user/logout', [AuthController::class, 'logout']);
 });
 Route::group(['middleware' => 'admin_check', 'prefix' => 'file-manager'], function() {
-    Route::get('/get-public-dir', [\App\Http\Controllers\FileController::class, 'getPublicDir'])->name('getPublicDir');
+    Route::get('/get-public-storage-dir', [FileController::class, 'getPublicStorageDir'])->name('getPublicStorageDir');
+    Route::post('/get-any-dir-under-public-storage', [FileController::class, 'getAnyDirUnderPublicStorage'])->name('getAnyDirUnderPublicStorage');
 });
