@@ -14,7 +14,7 @@ class UploadFileToPublicStorageRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,13 +25,8 @@ class UploadFileToPublicStorageRequest extends FormRequest
     public function rules()
     {
         return [
-            'path' => [
-                'required',
-                'max:500',
-                function($attribute, $value, $fail) {
-                    if(Storage::exists("public/$value"))
-                        $fail('Filename is already exists.');
-                }]
+            'path' => ['required', 'max:500'],
+            'file' => ['required']
         ];
     }
 }
