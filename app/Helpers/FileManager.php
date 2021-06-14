@@ -32,7 +32,7 @@ class FileManager
     }
 
     public static function getPublicStoragePath($path) {
-        return "public/$path";
+        return public_path("storage/" . $path);
     }
 
     public static function getSubItemsOfPublicDir() {
