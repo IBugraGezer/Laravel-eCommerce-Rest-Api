@@ -36,4 +36,5 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
 Route::group(['middleware' => 'admin_check', 'prefix' => 'file-manager'], function() {
     Route::get('/get-public-storage-dir', [FileController::class, 'getPublicStorageDir'])->name('getPublicStorageDir');
     Route::post('/get-any-dir-under-public-storage', [FileController::class, 'getAnyDirUnderPublicStorage'])->name('getAnyDirUnderPublicStorage');
+    Route::post('/download-file-from-public-storage', [FileController::class, 'downloadFileFromPublicStorage'])->name('downloadFileFromPublicStorage');
 });
