@@ -4,6 +4,7 @@
 namespace App\Helpers;
 
 
+use App\Helpers\Helper;
 use Illuminate\Support\Facades\Storage;
 
 class FileManager
@@ -15,16 +16,18 @@ class FileManager
     public static function getAnyDirUnderPublicStorage($dir) {
         $items = [];
 
-        $directories = Storage::directories("public" . DIRECTORY_SEPARATOR . $dir);
+        $directories = Storage::directories("public/" . $dir);
         foreach ($directories as $directory) {
-            $items[ltrim($directory, "public/")] = "directory";
+            $directory = Helper::filterFirstPublic($directory);
+
+            $items[$directory] = "directory";
         }
 
-        $files = Storage::files("public" . DIRECTORY_SEPARATOR . $dir);
+        $files = Storage::files("public/" . $dir);
         foreach ($files as $file) {
-            $items[ltrim($file, "public/")] = "file";
+            $file = Helper::filterFirstPublic($file);
+            $items[$file] = "file";
         }
-
         return $items;
     }
 
