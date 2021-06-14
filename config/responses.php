@@ -6,7 +6,8 @@ $messages = [
     'not_found' => "Not found.",
     'already_logged_in' => "You are already logged in.",
     'bad_creds' => "Bad creds.",
-    'logged_out' => "Logged out."
+    'logged_out' => "Logged out.",
+    'bad_request' => "Bad request."
 ];
 
 $responses = [
