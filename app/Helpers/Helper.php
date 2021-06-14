@@ -14,4 +14,7 @@ class Helper
 
         return $path;
     }
+    public static function isConsecutive($array) {
+        return ((int)max($array)-(int)min($array) == (count($array)-1));
+    }
 }
