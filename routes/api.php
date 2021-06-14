@@ -37,4 +37,6 @@ Route::group(['middleware' => 'admin_check', 'prefix' => 'file-manager'], functi
     Route::get('/get-public-storage-dir', [FileController::class, 'getPublicStorageDir'])->name('getPublicStorageDir');
     Route::post('/get-any-dir-under-public-storage', [FileController::class, 'getAnyDirUnderPublicStorage'])->name('getAnyDirUnderPublicStorage');
     Route::post('/download-file-from-public-storage', [FileController::class, 'downloadFileFromPublicStorage'])->name('downloadFileFromPublicStorage');
+    Route::post('/upload-file-to-public-storage', [FileController::class, 'uploadFileToPublicStorage'])->name('uploadFileToPublicStorage');
+
 });
