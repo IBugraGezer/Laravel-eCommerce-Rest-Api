@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Helpers\AuthHelper;
+use App\Rules\ProductImagesRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
@@ -33,6 +34,7 @@ class ProductStoreRequest extends FormRequest
             'slug' => 'required|string|min:10|max:500|unique:products,slug',
             'stock' => 'int|min:0|max:999999999',
             'description' => 'string|min:10|max:1400',
+            'images' => [new ProductImagesRule],
             'active' => 'int|min:0|max:1'
         ];
     }
