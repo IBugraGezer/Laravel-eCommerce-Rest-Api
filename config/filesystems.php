@@ -69,4 +69,8 @@ return [
         public_path('storage') => storage_path('app/public'),
     ],
 
+    'available_image_types' => [
+        'jpg',
+        'jpeg',
+    ]
 ];
