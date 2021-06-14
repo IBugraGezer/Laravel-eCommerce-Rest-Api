@@ -4,12 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Helpers\FileManager;
 use App\Http\Requests\DownloadFileFromPublicStorageRequest;
-use App\Http\Requests\GetDirRequest;
 use App\Http\Requests\GetDirUnderPublicStorageRequest;
 use App\Http\Requests\UploadFileToPublicStorageRequest;
-use Faker\Core\File;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
 {
