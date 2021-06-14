@@ -31,7 +31,7 @@ class FileManager
         return $items;
     }
 
-    public function getPublicStoragePath($path) {
+    public static function getPublicStoragePath($path) {
         return "public/$path";
     }
 
