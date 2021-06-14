@@ -35,6 +35,10 @@ class FileManager
         return public_path("storage/" . $path);
     }
 
+    public static function uploadFileToPublicStoragePath($file, $path) {
+        return $file->store("public/$path");
+    }
+
     public static function getSubItemsOfPublicDir() {
         return self::getAllItems("public");
     }
