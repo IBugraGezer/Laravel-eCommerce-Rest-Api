@@ -6,6 +6,7 @@ use App\Helpers\FileManager;
 use App\Http\Requests\DownloadFileFromPublicStorageRequest;
 use App\Http\Requests\GetDirRequest;
 use App\Http\Requests\GetDirUnderPublicStorageRequest;
+use App\Http\Requests\UploadFileToPublicStorageRequest;
 use Faker\Core\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -24,5 +25,14 @@ class FileController extends Controller
     public function downloadFileFromPublicStorage(DownloadFileFromPublicStorageRequest $request) {
         $data = $request->validated();
         return response()->download(FileManager::getPublicStoragePath($data['path']));
+    }
+
+    public function uploadFileToPublicStorage(UploadFileToPublicStorageRequest $request) {
+        $data = $request->validated();
+
+        if(!$request->hasFile('file'))
+            return response(config('responses.as_array.bad_request'), 400);
+
+        return FileManager::uploadFileToPublicStoragePath($request->file('file'), $data['path']);
     }
 }
