@@ -31,6 +31,10 @@ class FileManager
         return $items;
     }
 
+    public function getPublicStoragePath($path) {
+        return "public/$path";
+    }
+
     public static function getSubItemsOfPublicDir() {
         return self::getAllItems("public");
     }
