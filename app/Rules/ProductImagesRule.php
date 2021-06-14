@@ -31,6 +31,9 @@ class ProductImagesRule implements Rule
      */
     public function passes($attribute, $value)
     {
+        if(is_null($value))
+            return true;
+
         $images = json_decode($value, true);
         $placeNumbers = [];
         $coverImageCheck = false;
