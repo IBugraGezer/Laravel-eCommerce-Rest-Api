@@ -35,6 +35,6 @@ class IsFileExistsUnderPublicStorage implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return 'This file is not exists.';
     }
 }
