@@ -26,6 +26,7 @@ class ProductResource extends JsonResource
             'stock' => $this->stock,
             'description' => $this->description,
             'rating_average' => $this->rating_average,
+            'images' => ProductImageResource::collection($this->images),
             'active' => AuthHelper::checkAdmin() ? $this->active : null
         ]);
     }
