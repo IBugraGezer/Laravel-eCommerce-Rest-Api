@@ -6,7 +6,9 @@ use App\Http\Requests\ProductStoreRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
+use App\Models\ProductImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -34,14 +36,29 @@ class ProductController extends Controller
     {
         $request->validated();
 
+        $images = json_decode($request->images, true);
+
+        DB::beginTransaction();
         try {
             $product = new Product;
             $product->fill($request->all());
             $product->generateProductSerialNumber();
             $product->save();
+
+            foreach($images as $imageData) {
+                $image = new ProductImage;
+                $image->product_id = $product->id;
+                $image->path = $imageData['path'];
+                $image->place_number = $imageData['place_number'];
+                $image->is_cover = $imageData['is_cover'];
+                $image->save();
+            }
+
+            DB::commit();
             return response(new ProductResource($product), 200);
         } catch(\Exception $e) {
-            return response(config('responses.as_array.error'), 500);
+            DB::rollBack();
+            return response(/*config('responses.as_array.error')*/ $e->getMessage(), 500);
         }
     }
 
