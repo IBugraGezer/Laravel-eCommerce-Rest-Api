@@ -90,15 +90,35 @@ class ProductController extends Controller
     {
         $request->validated();
 
+        DB::beginTransaction();
         try {
             $product = Product::findOrFail($id);
         } catch(\Exception $e) {
+            DB::rollBack();
             return response(config('responses.as_array.not_found', 404));
         }
         try {
-            $product->update($request);
-            return response(new ProductResource($product),200);
+            $product->update($request->all());
+
+            $oldImages = $product->images;
+            foreach($oldImages as $image) {
+                $image->delete();
+            }
+
+            $images = json_decode($request->images, true);
+            foreach($images as $imageData) {
+                $image = new ProductImage;
+                $image->product_id = $product->id;
+                $image->path = $imageData['path'];
+                $image->place_number = $imageData['place_number'];
+                $image->is_cover = $imageData['is_cover'];
+                $image->save();
+            }
+
+            DB::commit();
+            return response(new ProductResource($product->fresh()),200);
         } catch(\Exception $e) {
+            DB::rollBack();
             return response(config('responses.as_array.error'), 500);
         }
     }
