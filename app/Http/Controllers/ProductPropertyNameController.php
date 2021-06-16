@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 
 class ProductPropertyNameController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('check_admin');
+    }
+
     /**
      * Display a listing of the resource.
      *
