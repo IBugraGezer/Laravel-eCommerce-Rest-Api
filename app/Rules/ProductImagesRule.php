@@ -82,6 +82,11 @@ class ProductImagesRule implements Rule
         if(!Helper::isConsecutive($placeNumbers)) {
             $this->message = "Place numbers must be consecutive.";
             return false;
+        }
+
+        if(!$coverImageCheck) {
+            $this->message = "You must set a cover image.";
+            return false;
         } else {
             return true;
         }
