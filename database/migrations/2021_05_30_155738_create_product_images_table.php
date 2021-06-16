@@ -23,7 +23,8 @@ class CreateProductImagesTable extends Migration
 
             $table->foreign('product_id')
                 ->references('id')
-                ->on('products');
+                ->on('products')
+                ->onDelete('cascade');
 
             $table->unique(['product_id', 'place_number']);
         });
