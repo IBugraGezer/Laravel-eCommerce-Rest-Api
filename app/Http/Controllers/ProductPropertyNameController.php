@@ -42,7 +42,12 @@ class ProductPropertyNameController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+            $productPropertyName = ProductPropertyName::findOrFail($id);
+            return response(new ProductPropertyNameResource($productPropertyName), 200);
+        } catch (\Exception $e) {
+            return response(config('responses.as_array.not_found'), 404);
+        }
     }
 
     /**
