@@ -40,7 +40,7 @@ class ProductPolicy
      * @param  \App\Models\Product  $product
      * @return mixed
      */
-    public function delete(User $user, Product $product)
+    public function delete(User $user)
     {
         return $user->isAdmin();
     }
