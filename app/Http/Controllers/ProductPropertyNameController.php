@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductPropertyNameStoreRequest;
 use App\Http\Resources\ProductPropertyNameResource;
 use App\Models\ProductPropertyName;
 use Illuminate\Http\Request;
@@ -29,9 +30,16 @@ class ProductPropertyNameController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductPropertyNameStoreRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        try {
+            $productProperty = ProductPropertyName::create($request);
+            return response(new ProductPropertyNameResource($productProperty), 200);
+        } catch (\Exception $e) {
+            return response(config('responses.as_array.error'), 500);
+        }
     }
 
     /**
