@@ -7,7 +7,8 @@ $messages = [
     'already_logged_in' => "You are already logged in.",
     'bad_creds' => "Bad creds.",
     'logged_out' => "Logged out.",
-    'bad_request' => "Bad request."
+    'bad_request' => "Bad request.",
+    'property_name_has_values' => "This property name already has property values. Please remove them before remove the property name."
 ];
 
 $responses = [
