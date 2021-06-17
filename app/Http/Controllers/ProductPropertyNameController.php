@@ -98,6 +98,9 @@ class ProductPropertyNameController extends Controller
             return response(config('responses.as_array.not_found'), 404);
         }
 
+        if($productPropertyName->hasPropertyValue())
+            return response(config('responses.as_array.property_name_has_values'), 409);
+
         $deleteCount = ProductPropertyName::destroy($id);
 
         return response(["deleted" => $deleteCount], 200);
