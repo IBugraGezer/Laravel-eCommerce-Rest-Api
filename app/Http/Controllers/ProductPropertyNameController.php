@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductPropertyNameStoreRequest;
+use App\Http\Requests\ProductPropertyNameUpdateRequest;
 use App\Http\Resources\ProductPropertyNameResource;
 use App\Models\ProductPropertyName;
 use Illuminate\Http\Request;
@@ -35,7 +36,7 @@ class ProductPropertyNameController extends Controller
         $data = $request->validated();
 
         try {
-            $productProperty = ProductPropertyName::create($request);
+            $productProperty = ProductPropertyName::create($data);
             return response(new ProductPropertyNameResource($productProperty), 200);
         } catch (\Exception $e) {
             return response(config('responses.as_array.error'), 500);
@@ -65,9 +66,22 @@ class ProductPropertyNameController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProductPropertyNameUpdateRequest $request, $id)
     {
-        //
+        $data = $request->validated();
+
+        try {
+            $productPropertyName = ProductPropertyName::findOrFail($data);
+        } catch (\Exception $e) {
+            return response(config('responses.as_array.not_found'), 404);
+        }
+
+        try {
+            $productPropertyName->update($data);
+            return response(new ProductPropertyName($productPropertyName), 200);
+        } catch (\Exception $e) {
+            return response(config('responses.as_array.error'), 500);
+        }
     }
 
     /**
@@ -87,6 +101,5 @@ class ProductPropertyNameController extends Controller
         $deleteCount = ProductPropertyName::destroy($id);
 
         return response(["deleted" => $deleteCount], 200);
-
     }
 }
