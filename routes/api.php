@@ -3,6 +3,7 @@
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductPropertyNameController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BrandController;
@@ -28,6 +29,7 @@ Route::group(['prefix' => 'user'], function () {
 Route::apiResource('categories', CategoryController::class);
 Route::apiResource('brands', BrandController::class);
 Route::apiResource('products', ProductController::class);
+Route::apiResource('product-property-names', ProductPropertyNameController::class);
 
 Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::apiResource('addresses', AddressController::class);
