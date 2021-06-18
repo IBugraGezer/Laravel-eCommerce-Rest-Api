@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductPropertyValueStoreRequest;
+use App\Http\Requests\ProductPropertyValueUpdateRequest;
 use App\Http\Resources\ProductPropertyValueResource;
 use App\Models\ProductPropertyValue;
 use Illuminate\Http\Request;
@@ -64,9 +65,23 @@ class ProductPropertyValueController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProductPropertyValueUpdateRequest $request, $id)
     {
-        //
+        $data = $request->validated();
+
+        try {
+            $productPropertyValue = ProductPropertyValue::findOrFail($id);
+        } catch (\Exception $e) {
+            return response(config('responses.as_array.not_found'), 404);
+        }
+
+        try {
+            $productPropertyValue->value = $data['value'];
+            $productPropertyValue->save();
+            return response(new ProductPropertyValueResource($productPropertyValue), 200);
+        } catch (\Exception $e) {
+            return response(config('responses.as_array.error'), 500);
+        }
     }
 
     /**
