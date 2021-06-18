@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductPropertyValueStoreRequest;
 use App\Http\Resources\ProductPropertyValueResource;
 use App\Models\ProductPropertyValue;
 use Illuminate\Http\Request;
@@ -28,9 +29,16 @@ class ProductPropertyValueController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductPropertyValueStoreRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        try {
+            $productPropertyValue = ProductPropertyValue::create($data);
+            return response(new ProductPropertyValueResource($productPropertyValue), 200);
+        } catch (\Exception $e) {
+            return response(config('responses.as_array.error'), 500);
+        }
     }
 
     /**
@@ -41,7 +49,12 @@ class ProductPropertyValueController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+            $productPropertyValue = ProductPropertyValue::findOrFail($id);
+            return response(new ProductPropertyValueResource($productPropertyValue), 200);
+        } catch (\Exception $e) {
+            return response(config('responses.as_array.not_found'), 404);
+        }
     }
 
     /**
@@ -64,6 +77,14 @@ class ProductPropertyValueController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $productPropertyValue = ProductPropertyValue::findOrFail($id);
+        } catch (\Exception $e) {
+            return response(config('responses.as_array.not_found'), 404);
+        }
+
+        $deleteCount = $productPropertyValue->delete();
+
+        return response(["deleted" => $deleteCount], 200);
     }
 }
