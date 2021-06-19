@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProductPropertyStoreRequest;
 use App\Http\Resources\ProductPropertyResource;
 use App\Http\Resources\ProductPropertyValueResource;
+use App\Models\Product;
 use App\Models\ProductProperty;
 use Illuminate\Http\Request;
 
@@ -51,7 +52,13 @@ class ProductPropertyController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+            $productProperty = ProductProperty::findOrFail($id);
+        } catch (\Exception $e) {
+            return response(config('responses.as_array.not_found'), 404);
+        }
+
+        return response(new ProductPropertyResource($productProperty), 200);
     }
 
     /**
