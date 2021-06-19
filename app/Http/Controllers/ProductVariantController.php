@@ -78,6 +78,7 @@ class ProductVariantController extends Controller
         }
         try {
             $productVariant->update($request->only(['price', 'stock']));
+            return response(new ProductVariantResource($productVariant), 200);
         } catch (\Exception $e) {
             return response(config('responses.as_array.error'), 500);
         }
@@ -91,6 +92,14 @@ class ProductVariantController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $productVariant = ProductVariant::findOrFail($id);
+        } catch (\Exception $e) {
+            return response(config('responses.as_array.not_found'), 404);
+        }
+
+        $deleteCount = $productVariant->delete();
+
+        return response(["deleted" => $deleteCount], 200);
     }
 }
