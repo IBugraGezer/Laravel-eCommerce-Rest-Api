@@ -97,6 +97,14 @@ class ProductPropertyController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $productProperty = ProductProperty::findOrFail($id);
+        } catch (\Exception $e) {
+            return response(config('responses.as_array.not_found'), 404);
+        }
+
+        $deleteCount = $productProperty->delete();
+
+        return response(["deleted" => $deleteCount], 200);
     }
 }
