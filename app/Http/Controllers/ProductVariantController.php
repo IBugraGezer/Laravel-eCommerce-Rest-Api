@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductVariantStoreRequest;
+use App\Http\Requests\ProductVariantUpdateRequest;
 use App\Http\Resources\ProductVariantResource;
 use App\Models\ProductVariant;
 use Illuminate\Http\Request;
@@ -68,9 +69,18 @@ class ProductVariantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProductVariantUpdateRequest $request, $id)
     {
-        //
+        try {
+            $productVariant = ProductVariant::findOrFail($id);
+        } catch (\Exception $e) {
+            return response(config('responses.as_array.not_found'), 404);
+        }
+        try {
+            $productVariant->update($request->only(['price', 'stock']));
+        } catch (\Exception $e) {
+            return response(config('responses.as_array.error'), 500);
+        }
     }
 
     /**
