@@ -52,7 +52,13 @@ class ProductVariantController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+            $productVariant = ProductVariant::findOrFail($id);
+        } catch (\Exception $e) {
+            return response(config('responses.as_array.not_found'), 404);
+        }
+
+        return response(new ProductVariant($productVariant), 200);
     }
 
     /**
