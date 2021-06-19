@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductVariantStoreRequest;
 use App\Http\Resources\ProductVariantResource;
 use App\Models\ProductVariant;
 use Illuminate\Http\Request;
@@ -30,9 +31,17 @@ class ProductVariantController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductVariantStoreRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        try {
+            $productVariant = ProductVariant::create($data);
+        } catch (\Exception $e) {
+            return response(config('responses.as_array.error'), 500);
+        }
+
+        return response(new ProductVariantResource($productVariant), 200);
     }
 
     /**
