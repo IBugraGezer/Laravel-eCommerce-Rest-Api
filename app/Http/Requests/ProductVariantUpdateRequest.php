@@ -24,8 +24,6 @@ class ProductVariantUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'product_id' => 'required|exists:products,id',
-            'property_value_id' => 'required|exists:product_property_values,id',
             'price' => 'required|numeric|regex:/^\d+(\.\d{1,2})?$/|max:9999999|min:0.01',
             'stock' => 'int|min:0|max:999999999',
         ];
