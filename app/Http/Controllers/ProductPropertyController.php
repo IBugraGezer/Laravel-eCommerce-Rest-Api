@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductPropertyStoreRequest;
 use App\Http\Resources\ProductPropertyResource;
 use App\Http\Resources\ProductPropertyValueResource;
 use App\Models\ProductProperty;
@@ -30,9 +31,16 @@ class ProductPropertyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductPropertyStoreRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        try {
+            $productProperty = ProductProperty::create($data);
+            return response(new ProductPropertyResource($productProperty), 200);
+        } catch (\Exception $e) {
+            return response(config('responses.as_array.error'), 500);
+        }
     }
 
     /**
