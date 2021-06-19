@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProductPropertyResource;
+use App\Http\Resources\ProductPropertyValueResource;
+use App\Models\ProductProperty;
 use Illuminate\Http\Request;
 
 class ProductPropertyController extends Controller
@@ -18,7 +21,7 @@ class ProductPropertyController extends Controller
      */
     public function index()
     {
-        //
+        return response(ProductPropertyResource::collection(ProductProperty::all()), 200);
     }
 
     /**
