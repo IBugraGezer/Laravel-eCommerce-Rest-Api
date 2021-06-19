@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProductVariantResource;
+use App\Models\ProductVariant;
 use Illuminate\Http\Request;
 
 class ProductVariantController extends Controller
@@ -19,7 +21,7 @@ class ProductVariantController extends Controller
      */
     public function index()
     {
-        //
+        return response(ProductVariantResource::collection(ProductVariant::all()), 200);
     }
 
     /**
